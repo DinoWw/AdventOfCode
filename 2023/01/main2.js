@@ -1018,17 +1018,14 @@ const output =
 	.split('\n')
 	.map(
 		s => {
-			console.log(s)
 			let nums = matchOverlap(s, /(?:[0-9]|one|two|three|four|five|six|seven|eight|nine)/g);
  			nums = [nums[0], nums[nums.length-1]];
-			console.log(nums);
  			let a = parseInt(
  				nums.reduce((final, current)=>{
  					if(!isNaN(current)) return final + current;
  					return final + dict[current];
  				}, '')
  			)
- 			console.log(a)
  			return a;
  		}
 	)
