@@ -160,8 +160,6 @@ let gears = {
 
 
 
-// TODO: fix kad je jedan broj kraj 2 geara
-// TODO: makni one s 1 ili vise od 2 broja kraj sebe
 const lines = input.split('\n');
 
 for (let i = 0; i < lines.length; i++){
