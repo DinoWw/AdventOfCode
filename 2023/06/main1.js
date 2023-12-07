@@ -39,7 +39,6 @@ for(let i = 0; i < td[0].length; i++){
 	let ub = Math.ceil(c+d)-1;
 
 
-	//for some reason, +1 is needed, not by my calculations tho
 	rez *= (ub-lb) + 1
 
 }
