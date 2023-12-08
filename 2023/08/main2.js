@@ -709,11 +709,12 @@ for(let j = 0; j < nodes.length; j++){
 	let count = 0;
 	for(let i = 0; true; i = (i+1)%instr.length){
 			let node = dict[visited.slice(-1)][instr[i] == 'L' ? 0:1];
-			if(visited.includes(node)) {
-				mins[j].push(count, visited.indexOf(node));
+			if(visited.some(point => point[0] == node && point[1] = i)) {
+				console.log(visited)
+				mins[j].push(count, visited.findIndex(point => point[0] == node && point[1] = i));
 				break;
 			}
-			visited.push(node)
+			visited.push([node, i])
 			count ++;
 			if(node[2] == 'Z') mins[j].push(count);
 		
