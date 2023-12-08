@@ -699,41 +699,76 @@ all[1].split(`\n`)
 
 
 let nodes = Object.keys(dict).filter(key => key[2] == 'A');
-console.log(dict);
+
+
+
+// takes too long to calculate each time I test so here it is
+let cached;
+/**/
+cached = [
+  [ 18961, 18963, 3 ],
+  [ 12169, 12172, 4 ],
+  [ 17263, 17267, 5 ],
+  [ 13301, 13303, 3 ],
+  [ 14999, 15003, 5 ],
+  [ 16697, 16701, 5 ]
+];/**/
 
 
 let mins = [];
-for(let j = 0; j < nodes.length; j++){
-	mins.push([])
-	let visited = [nodes[j]];
-	let count = 0;
-	for(let i = 0; true; i = (i+1)%instr.length){
-			let node = dict[visited.slice(-1)][instr[i] == 'L' ? 0:1];
-			if(visited.some(point => point[0] == node && point[1] = i)) {
-				console.log(visited)
-				mins[j].push(count, visited.findIndex(point => point[0] == node && point[1] = i));
+
+if(!cached){
+	for(let j = 0; j < nodes.length; j++){
+		mins.push([])
+		let visited = [[nodes[j], 0]];
+		let count = 0;
+		for(let i = 0; true; i = (i+1)%instr.length){
+			let node = dict[visited.slice(-1)[0][0]][instr[i] == 'L' ? 0:1];
+
+			if(visited.some(point => point[0] == node && point[1] == i+1)) {
+				mins[j].push(count, visited.findIndex(point => point[0] == node && point[1] == i+1));
 				break;
 			}
-			visited.push([node, i])
+
+			visited.push([node, (i+1)%instr.length])
 			count ++;
 			if(node[2] == 'Z') mins[j].push(count);
-		
+			
+		}
+		// console.log(visited);
 	}
-	console.log(visited);
+}
+else{
+	mins = cached;
 }
 
 console.log(mins)
 
-let loops = mins.map(x => x.filter((y, i) => y >= x[x.length - 1] || i >= x.length - 2))
-console.log(loops)
-
-let counts = mins.map(x => x[x.length - 1]);
-while(false){
 
 
-	!counts.some(x => x != counts[0]);
+// the following only works because console.log(mins) shows that every element is an array of size 3.
+// this is likely no coincidence, but I think it should've been pointed out in the task
 
+// this is redundant for the same reason
+// let loops = mins.map(x => x.filter((y, i) => y >= x[x.length - 1] || i >= x.length - 2))
+// console.log(loops)
+
+let cycleLen = mins.map(x => x[1] - x[2] + 1);
+let zId = mins.map(x => x[0]);
+console.log(cycleLen)
+
+while(true){
+	let minId = zId.indexOf(Math.min(...zId))
+
+	zId[minId] += cycleLen[minId];
+
+	if(zId.every(x => x == zId[0])) break;
+	//console.log(minId, zId);
 }
 
+
+let output = zId[0];
+
+console.log(output)
 
 
