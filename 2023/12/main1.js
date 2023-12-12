@@ -1023,7 +1023,6 @@ function combs(row, groups){
 	let s = row;
 	let sum = 0;
 
-	//console.log(row, groups, groups.length)
 
 
 	if(row.length == 0 && groups.length != 0){
