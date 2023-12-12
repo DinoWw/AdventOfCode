@@ -1035,7 +1035,9 @@ input
 
 //console.log(lines)
 
-let output = lines.reduce((sum, l) => {console.log(l);return sum + combs(...l)}, 0);
+let memo = {};
+
+let output = lines.reduce((sum, l) => {console.log(l);memo = {};return sum + combs(...l, memo)}, 0);
 
 console.log(output);
 
@@ -1078,8 +1080,16 @@ function combs(row, groups){
 		if(hidc != -1 && hidc != s.length - s.indexOf('#')){
 			break;
 		}
+		let a = [s.slice(groups[0] + 1), groups.slice(1)];
+		let c;
+		if(memo[a] == undefined){
+			c = combs(...a, memo);
+			memo[a] = c;
+		}
+		else {
+			c = memo[a];
+		}
 
-		let c = combs(s.slice(groups[0] + 1), groups.slice(1));
 		let qid = s.indexOf("?");
 		if(qid != -1 && qid < groups[0]){
 			s = s.slice(qid + 1);
