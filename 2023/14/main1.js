@@ -135,9 +135,6 @@ gridT.forEach(line => {
 	}
 	line.splice(line.length-count, count, ...Array.from(Array(count), (el, i) => i < rounds ? 'O' : '.'));
 })
-//console.log(grid.reduce((acc, x)=>acc+merge(x)+'\n', ''), '\n'+transpose(gridT).reduce((acc, x)=>acc+merge(x)+'\n', ''))
-
-//console.log(transpose(gridT)[0][0])
 
 const output = transpose(gridT).reduce((sum, l, i) => sum + l.reduce((sumL, x) => sumL + (x == 'O' ? grid.length-i : 0), 0), 0);
 

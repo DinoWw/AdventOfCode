@@ -111,16 +111,40 @@ O.#..O.#.#
 #OO..#....`;
 
 
-let grid = test.split('\n').map(l => l.split(''));
-
-for(let i = 0; i < 1000000000*4; i++)
+let grid = input.split('\n').map(l => l.split(''));
 
 
-console.log(grid.reduce((acc, x)=>acc+merge(x)+'\n', ''))
-//console.log(transpose(gridT)[0][0])
+grid = rotatedL(grid)
+
+let mem = {}
+const loops = 1000000000;
+let final = false
+
+for(let i = 0; i < loops; i++){
+	let rotR = rotatedR(grid)
+	if(!final && mem[rotR] == undefined){
+		mem[rotR] = i;
+	}
+	else if(!final){
+		final = true;
+		let cycle = i - mem[rotR];
+
+		i = loops - (loops - mem[rotR])%cycle;
+	}
+
+	sliderL(grid);
+	grid = rotatedR(grid);
+	sliderL(grid);
+	grid = rotatedR(grid);
+	sliderL(grid);
+	grid = rotatedR(grid);
+	sliderL(grid);
+	grid = rotatedR(grid);
 
 
-
+}
+grid = rotatedR(grid)
+//console.log(grid.reduce((acc, x)=>acc+merge(x)+'\n', ''))
 
 const output = grid.reduce((sum, l, i) => sum + l.reduce((sumL, x) => sumL + (x == 'O' ? grid.length-i : 0), 0), 0);
 
@@ -128,25 +152,7 @@ console.log(output);
 
 
 
-const dirs = [[0, 1], [0, -1], [0, -1], [0, 1]];
-
-function tilt(grid, dir){
-	if([1, 3].includes(dir)){
-		grid = transpose(grid);
-
-	}
-
-	let slider = [1, 2].includes(dir) ? sliderL : sliderR;
-
-	slider(grid)
-
-	if([1, 3].includes(dir)){
-		grid = transpose(grid);
-
-	}
-	return grid;
-}
-
+// end of main
 
 function sliderL(grid){
 
@@ -172,28 +178,6 @@ function sliderL(grid){
 	})
 }
 
-function sliderR(grid){
-	grid.forEach(line => {
-		let [count, rounds] = [0, 0];
-
-		for(let i = 0; i < line.length; i++){
-
-			if(line[i] == 'O'){
-				rounds ++;
-				count ++;
-			}
-			else if(line[i] == '#'){
-				line.splice(i-count, count, ...Array.from(Array(count), (el, i) => i >= rounds ? 'O' : '.'));
-				rounds = 0;
-				count = 0;
-			}
-			else{
-				count ++
-			}
-		}
-		line.splice(line.length-count, count, ...Array.from(Array(count), (el, i) => i >= rounds ? 'O' : '.'));
-	})
-}
 
 
 
@@ -202,7 +186,9 @@ function merge(l){
 }
 
 
-
-function transpose(matrix){
-	return Array.from(matrix[0], (el, i) => Array.from(matrix, (e, j) => matrix[j][i]))
+function rotatedR(matrix){
+	return Array.from(matrix[0], (el, i) => Array.from(matrix, (e, j) => matrix[matrix[0].length - 1 - j][i]))
+}
+function rotatedL(matrix){
+	return Array.from(matrix[0], (el, i) => Array.from(matrix, (e, j) => matrix[j][matrix.length - 1 - i]))
 }
