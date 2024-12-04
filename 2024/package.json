@@ -1,0 +1,14 @@
+{
+  "name": "aoc2024",
+  "version": "1.0.0",
+  "main": "aoc24-01.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "dino-ww",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  }
+}
